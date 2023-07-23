@@ -1,5 +1,5 @@
 import { Alert, Button, Form, Row, Col, Stack } from "react-bootstrap";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { InputContext, useInputContext } from "../context/AuthContext";
 import { baseURL, postRequest } from "../utils/service";
 
@@ -58,6 +58,18 @@ const Register = () => {
     
     registerUser();
   };
+
+  
+  useEffect(() =>
+  {
+    var user = localStorage.getItem("User");
+    if (user)
+    {
+      const UserData : User = JSON.parse(user);
+      setUser(UserData);
+      console.log(UserData);
+    }    
+  },[]);
 
   return (
     <Form onSubmit={handleSubmit}>
