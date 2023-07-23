@@ -29,27 +29,38 @@ const Register = () => {
     password: "",
   });
 
-  const [registerError, setRegisterError] = useState(null!);
+  const [registerError, setRegisterError] = useState(
+    {
+      error:false,
+      message: "",
+  });
   const [isRegisterLoading, setRegisterLoading] = useState(false);
 
-
-  const  registerUser = useCallback(async() =>{
-      const response = await postRequest(`${baseURL}/users/register`, JSON.stringify(RegisterDataUser))
-
-      if (response.error)
-        return setRegisterError(response);
-      localStorage.setItem('User', JSON.stringify(RegisterDataUser))
-  
-  
-    },[])
+  const registerUser = useCallback(async () => {
+    console.log(RegisterDataUser);
+    
+    setRegisterLoading(true);
+    const response = await postRequest(
+      `${baseURL}/users/register`,
+      JSON.stringify(RegisterDataUser)
+    );
+    console.log(response);
+    
+    setRegisterLoading(false);
+    if (response.error) return setRegisterError(response);
+    localStorage.setItem("User", JSON.stringify(RegisterDataUser));
+    setUser(response);
+  }, [RegisterDataUser]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Your registration logic here
+    console.log("In submit event");
+    
+    registerUser();
   };
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Row
         style={{
           height: "100vh",
@@ -80,6 +91,7 @@ const Register = () => {
                   email: e.target.value,
                 }));
               }}
+              value={RegisterDataUser.email}
             />
             <Form.Control
               type="password"
@@ -90,13 +102,17 @@ const Register = () => {
                   password: e.target.value,
                 }));
               }}
+              value={RegisterDataUser.password}
             />
             <Button type="submit" variant="primary">
-              Register
+              {isRegisterLoading? "Creating your account" : "Register"}
             </Button>
-            <Alert variant="danger">
-              <p>All Fields are required</p>
-            </Alert>
+            {
+              registerError?.error && 
+            (<Alert variant="danger">
+              <p>{registerError?.message} </p>
+            </Alert>)
+            }
           </Stack>
         </Col>
       </Row>

@@ -21,13 +21,12 @@ const registerUser = async (req, res) => {
             return (res.status(400).json("All fields are required..."));
         if (!validator.isEmail(email))
             return (res.status(400).json("Email format not valid..."));
-        if (!validator.isStrongPassword(password))
+        if (!validator.isStrongPassword(password) && console.log("im hereee")z)
             return (res.status(400).json("Password format not valid..."));
         let user = await userModel.findOne({ email });
         if (user)
             return (res.status(400).json("User with the given email already exists..."));
         user = new userModel({ name, email, password });
-
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
 
