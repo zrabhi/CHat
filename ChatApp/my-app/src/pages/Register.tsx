@@ -17,7 +17,7 @@ interface User {
 }
 
 const Register = () => {
-  const [user, setUser] = useState({
+   const [user, setUser] = useState({
     email: "",
     name: "",
     token: "",
@@ -59,17 +59,6 @@ const Register = () => {
     registerUser();
   };
 
-  
-  useEffect(() =>
-  {
-    var user = localStorage.getItem("User");
-    if (user)
-    {
-      const UserData : User = JSON.parse(user);
-      setUser(UserData);
-      console.log(UserData);
-    }    
-  },[]);
 
   return (
     <Form onSubmit={handleSubmit}>
