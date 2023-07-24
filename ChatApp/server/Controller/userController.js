@@ -15,13 +15,14 @@ const createToke = (_id) => {
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
+   
 
     try {
         if (!name || !email || !password)
             return (res.status(400).json("All fields are required..."));
         if (!validator.isEmail(email))
             return (res.status(400).json("Email format not valid..."));
-        if (!validator.isStrongPassword(password) && console.log("im hereee")z)
+        if (!validator.isStrongPassword(password) && console.log("im hereee"))
             return (res.status(400).json("Password format not valid..."));
         let user = await userModel.findOne({ email });
         if (user)

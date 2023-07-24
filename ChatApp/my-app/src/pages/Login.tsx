@@ -12,7 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const [isLoginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState({
     error: false,
@@ -27,19 +27,21 @@ const Login = () => {
     console.log(response);
     setLoginLoading(false);
 
-    if (response.error)
-      return setLoginError(response)
+    if (response.error) return setLoginError(response);
     console.log("im hereee");
-    
+
     localStorage.setItem("User", JSON.stringify(response));
     setUser(response);
   }, [loginInfo]);
 
   return (
     <>
-      <Form onSubmit={ (e) => {
-         e.preventDefault()
-        LogIn()}}>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          LogIn();
+        }}
+      >
         <Row style={RowStyle}>
           <Col xs={6}>
             <Stack gap={3}>
@@ -52,7 +54,6 @@ const Login = () => {
                     ...loginInfo,
                     email: e.target.value,
                   }));
-                  
                 }}
                 value={loginInfo.email}
               />
@@ -64,19 +65,17 @@ const Login = () => {
                     ...loginInfo,
                     password: e.target.value,
                   }));
-                  
                 }}
                 value={loginInfo.password}
               />
               <Button type="submit" variant="primary">
-              {isLoginLoading? "Longin into your account" : "Login"}
+                {isLoginLoading ? "Longin into your account" : "Login"}
               </Button>
-              {
-              loginError?.error && 
-            (<Alert variant="danger">
-              <p>{loginError?.message} </p>
-            </Alert>)
-            }
+              {loginError?.error && (
+                <Alert variant="danger">
+                  <p>{loginError?.message} </p>
+                </Alert>
+              )}
             </Stack>
           </Col>
         </Row>

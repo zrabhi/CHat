@@ -11,6 +11,6 @@ const userShema = new Schema(
         timestamps: true,
     }
 );
-const UserModel = mongodb.model("User", userShema);
 
+const UserModel = mongodb.model("User", userShema);
 module.exports = UserModel;

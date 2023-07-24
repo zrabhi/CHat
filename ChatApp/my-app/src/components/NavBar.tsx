@@ -23,7 +23,7 @@ const NavBar: React.FC<data> = ({ onChange }) => {
             ChatApp
           </Link>
         </h2>
-        {name && (<span className="text-warning">{`Logged in as ${name}`}</span>)}
+        {name && <span className="text-warning">{`Logged in as ${name}`}</span>}
         <Nav>
           <Stack direction="horizontal" gap={3}>
             {name && (
