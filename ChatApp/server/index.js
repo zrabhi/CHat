@@ -4,14 +4,16 @@ const app = express();
 const cors = require('cors');
 const userRoute = require('./Routes/userRoute');
 const chatRoute = require('./Routes/chatRoute'); 
+const messageRoute = require('./Routes/messageRoute');
 require("dotenv").config;
 const mongodb = require('mongoose');
+
 app.use(express.json()); 
 app.use(cors());
+
 app.use("/api/users", userRoute);
 app.use("/api/chat", chatRoute);
- 
-
+app.use("/api/messages", messageRoute);
 
 mongodb.set('strictQuery', true);
 
