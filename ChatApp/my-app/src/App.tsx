@@ -9,35 +9,54 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import { InputContext } from "./context/AuthContext";
 import { useEffect } from "react";
+import {
+  ChatContextProvider,
+  ChatContextState,
+  User,
+} from "./context/chatContext";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    email: "",
+    name: "",
+    token: "",
+    _id: "",
+  });
+
   useEffect(() => {
-    var user = localStorage.getItem("User");
-    if (user) {
-      const UserData = JSON.parse(user);
-      setUser(UserData);
-      console.log(UserData);
+    const userDataFromLocalStorage = localStorage.getItem("User");
+    if (userDataFromLocalStorage) {
+      try {
+        const userData = JSON.parse(userDataFromLocalStorage);
+        setUser(userData);
+        console.log("user data:", userData);
+      } catch (error) {
+        console.error("Error parsing user data from localStorage:", error);
+      }
     }
   }, []);
 
   const logOutUser = useCallback(() => {
     localStorage.removeItem("User");
-    setUser(null);
+    setUser({} as User);
   }, []);
 
+  console.log("before return user" + user);
   return (
-    <>
+    <ChatContextProvider user={user}>
       <NavBar onChange={logOutUser} />
       <Container className="text-secondary">
         <Routes>
-          <Route path="/" element={user ? <Chat /> : <Login />} />
-          <Route path="/login" element={user ? <Chat /> : <Login />} />
-          <Route path="/register" element={user ? <Chat /> : <Register />} />
-          <Route path="*" element={<Chat />} />
+          <Route path="/" element={user.email ? <Chat user={user}/> : <Login />} />
+          <Route path="/login" element={user.email ? <Chat user={user} /> : <Login />} />
+          <Route
+            path="/register"
+            element={user.email ? <Chat user={user}/> : <Register />}
+          />
+          <Route path="*" element={<Chat user={user}/>} />
         </Routes>
       </Container>
-    </>
+    </ChatContextProvider>
   );
 }
 

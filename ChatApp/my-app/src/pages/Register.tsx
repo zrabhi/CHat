@@ -44,7 +44,6 @@ const Register = () => {
       `${baseURL}/users/register`,
       JSON.stringify(RegisterDataUser)
     );
-    console.log(response);
     
     setRegisterLoading(false);
     if (response.error) return setRegisterError(response);
