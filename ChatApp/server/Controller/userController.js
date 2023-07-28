@@ -15,10 +15,8 @@ const createToke = (_id) => {
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
-   
-
-    try {
-        if (!name || !email || !password)
+    try{
+        if (!name || !email || !  password)
             return (res.status(400).json("All fields are required..."));
         if (!validator.isEmail(email))
             return (res.status(400).json("Email format not valid..."));
@@ -90,4 +88,5 @@ const getUsers = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
 module.exports = { registerUser, loginUser, findUser, getUsers };
