@@ -22,7 +22,7 @@ export const UserChat: React.FC<ChatProp> = ({ chat, user }) => {
         </div>
         <div className="text-content">
           <div className="name">{recipientUser?.name}</div>
-          <div className="text">Text message</div>
+          <div className="text">Last maessage </div>
         </div>
         <div className="d-flex flex-column align-items-end">
             <div className="date">2023/7/27</div>

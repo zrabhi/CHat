@@ -1,17 +1,26 @@
-import { useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { chatContext, ChatContextState,User } from "../context/chatContext";
 import { Container, Stack } from "react-bootstrap";
+import PotentialChat from  "../components/potentialsChat"
 import { UserChat } from "../components/userChat";
+import { baseURL, postRequest } from "../utils/service";
 interface ChatProp {
     user: User;
 }
 const Chat = ({user}: any) => 
 {
     const { userChat, isUserChatLoading, userChatError } =  useContext(chatContext) as ChatContextState;
-
-    console.log("UserChat==> ",userChat);
+    const [uChat, setUChat] = useState();
+    const createChat = useCallback(async (firstId: string, secondId: string) =>
+    { 
+        const response = await postRequest(`${baseURL}/chat`, JSON.stringify({firstId, secondId}))
+        if (response.error)
+          return console.log("Error creating chat ");
+          setUChat(response);
+    },[])
   return <Container>
-    {userChat?.length < 1 ? null :
+    <PotentialChat user={user} uChat={userChat} createChat={createChat}/>
+    {userChat?.length < 1 ? "ChatList" :
         (<Stack direction="horizontal" gap={4} 
             className="align-items-start" >
         <Stack className="message-box flex-grow-0 pe-3" gap={3}>
@@ -26,6 +35,7 @@ const Chat = ({user}: any) =>
                 )
             })
         }
+        {!userChat && (<p> yout Chat List</p>)}
         </Stack>
         <p>ChatBox</p>
         </Stack>)
